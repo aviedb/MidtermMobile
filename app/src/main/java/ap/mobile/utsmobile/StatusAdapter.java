@@ -1,11 +1,13 @@
 package ap.mobile.utsmobile;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -44,16 +46,24 @@ public class StatusAdapter extends RecyclerView.Adapter {
   @NonNull
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return null; // implementasikan
+    View layout = LayoutInflater.from(this.context)
+        .inflate(R.layout.item_person, parent, false);
+
+    return new StatusVH(layout);
   }
 
   @Override
   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-    // implementasikan
+    Person person = this.data.get(position);
+
+    StatusVH rowView = (StatusVH) holder;
+    rowView.tvNama.setText(person.nama);
+    rowView.tvStatus.setText(person.status? "online" : "offline");
+    if (!person.status) rowView.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.red));
   }
 
   @Override
   public int getItemCount() {
-    return 0; // implementasikan
+    return this.data.size();
   }
 }
